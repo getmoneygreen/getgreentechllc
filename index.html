@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GetGreenTech LLC — IT Services & Technology Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c10;
+  --surface: #0d1117;
+  --surface2: #111820;
+  --green: #00ff88;
+  --green-dim: #00cc6a;
+  --green-dark: #003322;
+  --cyan: #00d4ff;
+  --gold: #fbbf24;
+  --red: #ff3366;
+  --white: #e8f0f8;
+  --gray: #6b7a8d;
+  --border: rgba(0,255,136,0.15);
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-display: 'Rajdhani', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Grid background */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 0 2rem;
+  background: rgba(8,12,16,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--green);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+.nav-logo span { color: var(--white); }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gray);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--green); }
+
+.nav-cta {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--green) !important;
+  border: 1px solid var(--green);
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  transition: all 0.2s !important;
+}
+
+.nav-cta:hover {
+  background: var(--green) !important;
+  color: var(--bg) !important;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding-top: 64px;
+}
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--green);
+  letter-spacing: 0.2em;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.2s forwards;
+}
+
+.hero-tag::before { content: '> '; color: var(--gray); }
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.4s forwards;
+}
+
+.hero-title .green { color: var(--green); }
+.hero-title .dim { color: var(--gray); font-weight: 400; }
+
+.hero-sub {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--gray);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.6s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.8s forwards;
+}
+
+.btn-primary {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  background: var(--green);
+  color: var(--bg);
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background: var(--green-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,255,136,0.3);
+}
+
+.btn-outline {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--border);
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-outline:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+/* Hero decorative */
+.hero-terminal {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 500px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.terminal-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-line {
+  margin-bottom: 0.4rem;
+  line-height: 1.6;
+}
+
+.terminal-line .prompt { color: var(--green); }
+.terminal-line .cmd { color: var(--white); }
+.terminal-line .out { color: var(--gray); }
+.terminal-line .success { color: var(--cyan); }
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--green);
+  animation: blink 1s infinite;
+  vertical-align: middle;
+}
+
+/* STATS BAR */
+.stats-bar {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  padding: 1.5rem 2rem;
+}
+
+.stats-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--green);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* SECTIONS */
+section {
+  position: relative;
+  z-index: 2;
+  padding: 6rem 2rem;
+}
+
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--green);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.section-tag::before { content: '// '; color: var(--gray); }
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.section-sub {
+  font-size: 1rem;
+  color: var(--gray);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+/* SERVICES */
+#services { background: var(--surface); }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.service-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: default;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--green);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+
+.service-card:hover {
+  border-color: rgba(0,255,136,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.service-card:hover::before { transform: scaleX(1); }
+
+.service-icon {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.service-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--white);
+}
+
+.service-desc {
+  font-size: 0.875rem;
+  color: var(--gray);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--green);
+  border: 1px solid var(--green-dark);
+  background: rgba(0,255,136,0.05);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+/* BLOG */
+#blog { background: var(--bg); }
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.blog-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.blog-card:hover {
+  border-color: rgba(0,255,136,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.blog-card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.blog-cat {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.blog-cat.homelab { color: var(--cyan); }
+.blog-cat.security { color: var(--red); }
+.blog-cat.business { color: var(--gold); }
+
+.blog-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--white);
+}
+
+.blog-card-body {
+  padding: 1.5rem;
+}
+
+.blog-excerpt {
+  font-size: 0.85rem;
+  color: var(--gray);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.blog-meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray);
+  display: flex;
+  justify-content: space-between;
+}
+
+.blog-read-more {
+  color: var(--green);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s;
+}
+
+.blog-read-more:hover { opacity: 0.7; }
+
+/* ABOUT */
+#about { background: var(--surface); }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-text p {
+  font-size: 1rem;
+  color: var(--gray);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+.about-text p strong { color: var(--white); font-weight: 500; }
+
+.skills-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.skill-item {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--gray);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.skill-item::before {
+  content: '▸';
+  color: var(--green);
+}
+
+.cert-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.cert-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--cyan);
+  border: 1px solid rgba(0,212,255,0.2);
+  background: rgba(0,212,255,0.05);
+  padding: 0.4rem 0.8rem;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+/* CONTACT */
+#contact { background: var(--bg); }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.contact-info { }
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.contact-item-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.contact-item-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.contact-item-value {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.contact-item-value a {
+  color: var(--green);
+  text-decoration: none;
+}
+
+.contact-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.75rem 1rem;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus { border-color: var(--green); }
+
+.form-input::placeholder { color: var(--gray); }
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* FOOTER */
+footer {
+  position: relative;
+  z-index: 2;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--green);
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray);
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--green); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Glow effects */
+.glow { text-shadow: 0 0 30px rgba(0,255,136,0.5); }
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  margin: 0;
+  opacity: 0.3;
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">GET<span>GREEN</span>TECH<span style="color:var(--gray)">_LLC</span></a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-tag">San Antonio, TX — IT Services & Technology Solutions</p>
+    <h1 class="hero-title">
+      <span class="green glow">GET</span>GREEN<br>
+      <span class="dim">TECH LLC</span>
+    </h1>
+    <p class="hero-sub">Enterprise-grade IT field services, phone repair, homelab consulting, and cybersecurity solutions. 8+ years of federal and enterprise experience — now serving San Antonio.</p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">// View Services</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-terminal">
+    <div class="terminal-bar">
+      <div class="terminal-dot" style="background:#ff5f56"></div>
+      <div class="terminal-dot" style="background:#ffbd2e"></div>
+      <div class="terminal-dot" style="background:#27c93f"></div>
+      <span style="font-size:0.7rem;color:var(--gray);margin-left:0.5rem">getgreentech ~ terminal</span>
+    </div>
+    <div class="terminal-line"><span class="prompt">▸ </span><span class="cmd">whoami</span></div>
+    <div class="terminal-line"><span class="out">Danilo Polanco — IT Technician & Founder</span></div>
+    <div class="terminal-line" style="margin-top:0.5rem"><span class="prompt">▸ </span><span class="cmd">cat services.txt</span></div>
+    <div class="terminal-line"><span class="success">✓ IT Field Support & Infrastructure</span></div>
+    <div class="terminal-line"><span class="success">✓ Phone & Device Repair</span></div>
+    <div class="terminal-line"><span class="success">✓ Homelab & Server Consulting</span></div>
+    <div class="terminal-line"><span class="success">✓ Cybersecurity & Hardening</span></div>
+    <div class="terminal-line"><span class="success">✓ Enterprise Migrations</span></div>
+    <div class="terminal-line" style="margin-top:0.5rem"><span class="prompt">▸ </span><span class="cmd">uptime</span></div>
+    <div class="terminal-line"><span class="out">8+ years experience — 100% dedicated</span></div>
+    <div class="terminal-line" style="margin-top:0.5rem"><span class="prompt">▸ </span><span class="cursor"></span></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-num">8+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div>
+      <div class="stat-num">CBP</div>
+      <div class="stat-label">Federal Infrastructure</div>
+    </div>
+    <div>
+      <div class="stat-num">USAA</div>
+      <div class="stat-label">Enterprise Migrations</div>
+    </div>
+    <div>
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Emergency Support</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <p class="section-tag">What We Do</p>
+    <h2 class="section-title">Services</h2>
+    <p class="section-sub">From federal infrastructure to small business IT — full-stack tech support tailored to your needs.</p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🖥️</div>
+        <div class="service-name">IT Field Support</div>
+        <div class="service-desc">On-site and remote IT support for businesses and individuals. Hardware troubleshooting, OS installs, network setup, and infrastructure maintenance.</div>
+        <div class="service-tags">
+          <span class="tag">On-Site</span>
+          <span class="tag">Remote</span>
+          <span class="tag">Hardware</span>
+          <span class="tag">Networking</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">📱</div>
+        <div class="service-name">Phone & Device Repair</div>
+        <div class="service-desc">Screen replacements, battery swaps, charging port repairs, and diagnostics for iPhones, Android devices, and tablets. Fast turnaround.</div>
+        <div class="service-tags">
+          <span class="tag">iPhone</span>
+          <span class="tag">Android</span>
+          <span class="tag">Tablets</span>
+          <span class="tag">Diagnostics</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🔒</div>
+        <div class="service-name">Cybersecurity</div>
+        <div class="service-desc">Security assessments, firewall hardening, vulnerability scanning, SIEM deployment, and incident response. Enterprise-grade security for any scale.</div>
+        <div class="service-tags">
+          <span class="tag">Hardening</span>
+          <span class="tag">SIEM</span>
+          <span class="tag">Pen Testing</span>
+          <span class="tag">CVE Mgmt</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🏗️</div>
+        <div class="service-name">Homelab & Server Consulting</div>
+        <div class="service-desc">Design, build, and maintain self-hosted infrastructure. Proxmox, Docker, ZFS, NAS, VPN, monitoring, and AI inference setups.</div>
+        <div class="service-tags">
+          <span class="tag">Proxmox</span>
+          <span class="tag">Docker</span>
+          <span class="tag">ZFS</span>
+          <span class="tag">Self-Hosted</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🔄</div>
+        <div class="service-name">Enterprise Migrations</div>
+        <div class="service-desc">Large-scale system migrations, data center transitions, and infrastructure upgrades. Experience with federal and Fortune 500 environments.</div>
+        <div class="service-tags">
+          <span class="tag">Migration</span>
+          <span class="tag">Enterprise</span>
+          <span class="tag">Federal</span>
+          <span class="tag">Data Center</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🤖</div>
+        <div class="service-name">AI & Automation</div>
+        <div class="service-desc">Local AI model deployment, workflow automation with n8n, custom agent development, and business process automation for small businesses.</div>
+        <div class="service-tags">
+          <span class="tag">Local AI</span>
+          <span class="tag">n8n</span>
+          <span class="tag">Automation</span>
+          <span class="tag">Agents</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-inner">
+    <p class="section-tag">Latest Posts</p>
+    <h2 class="section-title">From the Blog</h2>
+    <p class="section-sub">Real-world homelab experiences, cybersecurity insights, and lessons from building a tech business from scratch.</p>
+
+    <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-card-header">
+          <div class="blog-cat homelab">Homelab</div>
+          <div class="blog-title">Building a 19-Container Docker Stack on Proxmox VE</div>
+        </div>
+        <div class="blog-card-body">
+          <p class="blog-excerpt">How I built and maintain a full self-hosted media and monitoring stack on a Lenovo ThinkCentre M910q — including ZFS, Jellyfin, Grafana, and Wazuh.</p>
+          <div class="blog-meta">
+            <span>Coming soon</span>
+            <a href="#" class="blog-read-more">Read more →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-card-header">
+          <div class="blog-cat security">Security</div>
+          <div class="blog-title">Responding to a Supply Chain Attack: ClawHavoc Campaign</div>
+        </div>
+        <div class="blog-card-body">
+          <p class="blog-excerpt">A real incident response walkthrough — how I detected, assessed, and mitigated the ClawHavoc supply chain attack against my homelab in May 2026.</p>
+          <div class="blog-meta">
+            <span>Coming soon</span>
+            <a href="#" class="blog-read-more">Read more →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-card-header">
+          <div class="blog-cat business">Business</div>
+          <div class="blog-title">From IT Tech to Business Owner: Building SA Lockout Pro</div>
+        </div>
+        <div class="blog-card-body">
+          <p class="blog-excerpt">How I launched a car lockout service business under my LLC — from DBA filing and domain registration to a live website with auto-deploy in 48 hours.</p>
+          <div class="blog-meta">
+            <span>Coming soon</span>
+            <a href="#" class="blog-read-more">Read more →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-tag">Who We Are</p>
+    <h2 class="section-title">About GetGreenTech</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>GetGreenTech LLC is a San Antonio-based technology services company founded by <strong>Danilo Polanco</strong> — an IT professional with 8+ years of experience spanning federal infrastructure, enterprise migrations, and independent technical support.</p>
+        <p>From managing <strong>CBP federal infrastructure</strong> to leading large-scale migrations at <strong>USAA</strong>, the experience behind GetGreenTech is enterprise-grade — brought to businesses and individuals of all sizes.</p>
+        <p>We believe technology should work for you — not the other way around. Whether you need a quick phone repair or a full cybersecurity overhaul, we bring the same level of expertise and dedication to every job.</p>
+        <div class="cert-badges">
+          <span class="cert-badge">CompTIA Security+ (In Progress)</span>
+          <span class="cert-badge">CompTIA Network+ (In Progress)</span>
+          <span class="cert-badge">CompTIA Linux+ (In Progress)</span>
+          <span class="cert-badge">CEH v12 (In Progress)</span>
+        </div>
+      </div>
+      <div>
+        <div class="skills-list">
+          <div class="skill-item">Proxmox VE</div>
+          <div class="skill-item">Docker / Compose</div>
+          <div class="skill-item">ZFS Storage</div>
+          <div class="skill-item">Wazuh SIEM</div>
+          <div class="skill-item">Network Security</div>
+          <div class="skill-item">Firewall Hardening</div>
+          <div class="skill-item">Linux Administration</div>
+          <div class="skill-item">Windows Server</div>
+          <div class="skill-item">Python / Bash</div>
+          <div class="skill-item">Local AI / LLMs</div>
+          <div class="skill-item">n8n Automation</div>
+          <div class="skill-item">Pen Testing</div>
+          <div class="skill-item">Phone Repair</div>
+          <div class="skill-item">Federal IT</div>
+          <div class="skill-item">Enterprise Migration</div>
+          <div class="skill-item">Tailscale / VPN</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-tag">Get in Touch</p>
+    <h2 class="section-title">Contact Us</h2>
+    <p class="section-sub">Ready to get started? Reach out and we'll get back to you fast.</p>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div>
+            <div class="contact-item-label">Phone</div>
+            <div class="contact-item-value"><a href="tel:3479743290">(347) 974-3290</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <div class="contact-item-label">Location</div>
+            <div class="contact-item-value">San Antonio, TX & Surrounding Areas</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🕐</div>
+          <div>
+            <div class="contact-item-label">Availability</div>
+            <div class="contact-item-value">Mon–Sat 8AM–8PM · Emergency 24/7</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🏢</div>
+          <div>
+            <div class="contact-item-label">Business</div>
+            <div class="contact-item-value">GetGreenTech LLC · TX LLC</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-input" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Service Needed</label>
+          <input type="text" class="form-input" placeholder="e.g. Phone repair, IT support...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-input" placeholder="Tell us about your issue or project..."></textarea>
+        </div>
+        <a href="mailto:getgreentechllc@gmail.com" class="btn-primary" style="width:100%;text-align:center;display:block;">// Send Message</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">GETGREENTECH_LLC</div>
+    <div class="footer-copy">© 2026 GetGreenTech LLC · San Antonio, TX · TX LLC</div>
+    <div class="footer-links">
+      <a href="#services">Services</a>
+      <a href="#blog">Blog</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
